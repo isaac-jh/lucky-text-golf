@@ -1,12 +1,26 @@
+import json
 from .club_model import Club, Driver, Wood, Iron, Wedge, Putter
 
 class Golfer:
     name: str
-    exp: int = 0
-    cleared_courses: int = 0
+    exp: int
+    cleared_courses: int
 
-    def __init__(self, name) -> None:
+    def __init__(self, name: str) -> None:
         self.name = name
+        self.exp = 0
+        self.cleared_courses = 0
+
+    @staticmethod
+    def fetch(json_file: object):
+        golfer = Golfer(json_file["name"])
+        golfer.exp = json_file["exp"]
+        golfer.cleared_courses = json_file["cleared_courses"]
+        return golfer
+    
+    def save(self):
+        with open(f'./golfers/{self.name}.json', 'w') as outfile:
+            json.dump(self, outfile, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
     def get_level(self):
         if self.exp < 100:
