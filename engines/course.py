@@ -1,4 +1,5 @@
 import os
+import time
 
 from courses.normal import normal
 from engines.models.golfer import Golfer
@@ -31,7 +32,19 @@ def choose_course(current_user: Golfer):
             print("\n\nOK!!! Enjoy your rounding :)")
             break
 
+    print("\n\nRolling your distance condition")
+    current_user.set_todays_distance_condition()
+    for _ in range(10):
+        time.sleep(1)
+        print('.')
+    for club, grade in current_user.caddy_back.get_grades().items():
+        print(f'/n{club} : {grade}')
+
     if course_name == 'normal':
+        print(f"/n/nWe are going to {course_name} course")
+        for _ in range(10):
+            time.sleep(1)
+            print('.')
         return run_course(current_user, normal.COURSE_DATA)
     
 
