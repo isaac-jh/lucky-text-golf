@@ -10,7 +10,7 @@ COURSE_DATA = [
     Hole(6, 4, 283, Field.PENALTYAREA, 40, 55, 5, 32),
     Hole(7, 3, 125, Field.PENALTYAREA, 77, 21, 2, 18),
     Hole(8, 4, 276, Field.OB, 68, 30, 2, 23),
-    Hole(9, 4, 325, Field.PENALTYAREA, 55, 35, 10, 25),
+    Hole(9, 3, 135, Field.PENALTYAREA, 55, 35, 10, 25),
     Hole(10, 5, 515, Field.PENALTYAREA, 70, 15, 15, 35),
     Hole(11, 4, 350, Field.PENALTYAREA, 60, 35, 5, 23),
     Hole(12, 4, 309, Field.OB, 45, 45, 10, 24),
