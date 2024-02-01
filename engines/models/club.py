@@ -1,6 +1,9 @@
+import random
+
 from .field import Field
 from enum import Enum
 from typing import Tuple
+
 
 class DefaultClubDistance(Enum):
     DRIVER = 150
@@ -27,65 +30,76 @@ class Club:
     def shot(self, golfer_level: int, field: Field):
         pass
 
-    def _get_shot_range(self, golfer_level: int):
-        pass
+    def _calculate_miss_shot(self, golfer_level: int, club: str):
+        value = random.random()
+        if club == "D" or club == "W":
+            if golfer_level // 10 < 1:
+                if value < 0.3:
+                    return True
+            elif golfer_level // 10 < 3:
+                if value < 0.1:
+                    return True
+        if club == "I":
+            if golfer_level // 10 < 1:
+                if value < 0.2:
+                    return True
+            elif golfer_level // 10 < 3:
+                if value < 0.05:
+                    return True
 
 
 class Driver(Club):
-    pass
+    def shot(self, golfer_level: int, field: Field):
+        if self._calculate_miss_shot(golfer_level, 'D'):
+            return 0
+        min_distance = self.distance - int((50 - golfer_level) // 2)
+        if field == Field.FAIRWAY:
+            penalty = 0.8
+        if field == Field.ROUGH:
+            penalty = 0.7
+        return int(random.randrange(min_distance, self.distance + 1) * penalty)
 
 
 class Wood(Club):
-    pass
-
-
-class Wood3(Wood):
-    pass
-
-
-class Wood5(Wood):
-    pass
+    def shot(self, golfer_level: int, field: Field):
+        if self._calculate_miss_shot(golfer_level, 'W'):
+            return 0
+        min_distance = self.distance - int(((50 - golfer_level) // 2) * 7 / 10)
+        if field == Field.ROUGH:
+            penalty = 0.9
+        return int(random.randrange(min_distance, self.distance + 1) * penalty)
 
 
 class Iron(Club):
-    pass
-
-
-class Iron4(Iron):
-    pass
-
-
-class Iron5(Iron):
-    pass
-
-
-class Iron6(Iron):
-    pass
-
-
-class Iron7(Iron):
-    pass
-
-
-class Iron8(Iron):
-    pass
-
-
-class Iron9(Iron):
-    pass
+    def shot(self, golfer_level: int, field: Field):
+        if self._calculate_miss_shot(golfer_level, 'I'):
+            return 0
+        min_distance = self.distance - int(((50 - golfer_level) // 2) * 5 / 10)
+        if field == Field.ROUGH:
+            penalty = 0.9
+        if field == Field.BUNKER:
+            penalty = 0.6
+        return int(random.randrange(min_distance, self.distance + 1) * penalty)
 
 
 class Wedge(Club):
-    pass
+    # Wedge use shot method only in tee shot
+    def shot(self, golfer_level: int, field: Field):
+        min_distance = self.distance - int(((50 - golfer_level) // 2) * 3 / 10)
+        return random.randrange(min_distance, self.distance + 1)
+    
+    def approach(self, golfer_level: int, goal_distance: int):
+        penalty = int(goal_distance * (5 - golfer_level // 10) / 10)
+        min_distance = self.distance - penalty
+        max_distance = self.distance + penalty
 
-
-class Pitch(Wedge):
-    pass
-
-
-class Sand(Wedge):
-    pass
+        return random.randrange(min_distance, max_distance + 1)
 
 
 class Putter(Club):
-    pass
+    def putting(self, golfer_level: int, goal_distance: int):
+        penalty = int(goal_distance * (5 - golfer_level // 10) / 10)
+        min_distance = self.distance - penalty
+        max_distance = self.distance + penalty
+
+        return random.randrange(min_distance, max_distance + 1)

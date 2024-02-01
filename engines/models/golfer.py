@@ -1,6 +1,7 @@
 import json
 from .club import Club, Driver, Wood, Iron, Wedge, Putter
 from .caddy_back import CaddyBack
+from .field import Field
 
 class Golfer:
     name: str
@@ -46,17 +47,8 @@ class Golfer:
         level = self.get_level()
         self.caddy_back = CaddyBack(level)
 
-    def tee_swing(self, club: Driver | Wood | Iron | Wedge):
-        pass
-
-    def fairway_swing(self, club: Driver | Wood | Iron | Wedge):
-        pass
-
-    def rough_swing(self, club: Driver | Wood | Iron | Wedge):
-        pass
-
-    def bunker_swing(self, club: Iron | Wedge):
-        pass
+    def swing(self, club: Driver | Wood | Iron | Wedge, field: Field):
+        return club.shot(self.get_level(), field)
 
     def approach(self, club: Wedge):
         pass
