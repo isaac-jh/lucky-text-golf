@@ -22,7 +22,7 @@ def login_or_create():
 
         confirm = False
         while not confirm:
-            golfer_index = int(input(f'\nWell... Your name is...?\n\n{golfer_names}\nPlease type number of your name : ')) - 1
+            golfer_index = int(input(f'\nWell... Your name is...?\n{golfer_names}\nPlease type number of your name : ')) - 1
             if golfer_index == len(golfers):
                 print("\n\nOh! Sorry. You are a new commer!")
                 current_user = create_user(golfers)
