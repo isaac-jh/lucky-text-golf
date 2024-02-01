@@ -21,8 +21,14 @@ class Golfer:
         golfer.cleared_courses = json_file["cleared_courses"]
         return golfer
     
-    def count_cleared(self):
-        return len(self.cleared_courses)
+    def profile(self):
+        return {
+            "name": self.name,
+            "level": self.get_level(),
+            "exp": self.exp,
+            "cleared_count": len(self.cleared_courses),
+            "cleared_course_detail": self.cleared_courses
+        }
     
     def save(self):
         with open(f'./golfers/{self.name}.json', 'w') as outfile:
@@ -50,8 +56,8 @@ class Golfer:
     def swing(self, club: Driver | Wood | Iron | Wedge, field: Field):
         return club.shot(self.get_level(), field)
 
-    def approach(self, club: Wedge):
-        pass
+    def approach(self, club: Wedge, goal_distance: int):
+        return club.approach(self.get_level(), goal_distance)
 
-    def putting(self, club: Putter):
-        pass
+    def putting(self, club: Putter, goal_distance: int):
+        return club.putting(self.get_level(), goal_distance)

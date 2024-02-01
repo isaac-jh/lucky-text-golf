@@ -6,16 +6,16 @@ from typing import Tuple
 
 
 class DefaultClubDistance(Enum):
-    DRIVER = 150
-    WOOD3 = 130
-    WOOD5 = 110
-    IRON4 = 100
-    IRON5 = 90
-    IRON6 = 80
-    IRON7 = 70
-    IRON8 = 60
-    IRON9 = 50
-    PITCH = 40
+    DRIVER = 180
+    WOOD3 = 160
+    WOOD5 = 140
+    IRON4 = 130
+    IRON5 = 120
+    IRON6 = 110
+    IRON7 = 100
+    IRON8 = 90
+    IRON9 = 80
+    PITCH = 70
     # SAND always calculate by PITCH's 70%
 
 class Club:
@@ -53,11 +53,7 @@ class Driver(Club):
         if self._calculate_miss_shot(golfer_level, 'D'):
             return 0
         min_distance = self.distance - int((50 - golfer_level) // 2)
-        if field == Field.FAIRWAY:
-            penalty = 0.8
-        if field == Field.ROUGH:
-            penalty = 0.7
-        return int(random.randrange(min_distance, self.distance + 1) * penalty)
+        return random.randrange(min_distance, self.distance + 1)
 
 
 class Wood(Club):

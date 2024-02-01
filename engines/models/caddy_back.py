@@ -58,3 +58,33 @@ class CaddyBack:
             grade = 'F'
         
         return (grade, today_distance)
+    
+    def get_grades(self):
+        return {
+            "Driver": self.driver.grade,
+            "Wood3": self.wood3.grade,
+            "Wood5": self.wood5.grade,
+            "Iron4": self.iron4.grade,
+            "Iron5": self.iron5.grade,
+            "Iron6": self.iron6.grade,
+            "Iron7": self.iron7.grade,
+            "Iron8": self.iron8.grade,
+            "Iron9": self.iron9.grade,
+            "Pitch": self.pitch.grade,
+            "Sand": self.sand.grade
+        }
+
+    def get_distances(self):
+        return {
+            "Driver": self.driver.distance,
+            "Wood3": self.wood3.distance,
+            "Wood5": self.wood5.distance,
+            "Iron4": self.iron4.distance,
+            "Iron5": self.iron5.distance,
+            "Iron6": self.iron6.distance,
+            "Iron7": self.iron7.distance,
+            "Iron8": self.iron8.distance,
+            "Iron9": self.iron9.distance,
+            "Pitch": self.pitch.distance,
+            "Sand": self.sand.distance
+        }
