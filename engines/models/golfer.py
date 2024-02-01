@@ -42,8 +42,9 @@ class Golfer:
         else:
             return 50
     
-    def todays_distance_condition(self, club: Club):
-        pass
+    def set_todays_distance_condition(self):
+        level = self.get_level()
+        self.caddy_back = CaddyBack(level)
 
     def tee_swing(self, club: Driver | Wood | Iron | Wedge):
         pass

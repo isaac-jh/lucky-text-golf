@@ -1,8 +1,28 @@
 from .field import Field
+from enum import Enum
+from typing import Tuple
+
+class DefaultClubDistance(Enum):
+    DRIVER = 150
+    WOOD3 = 130
+    WOOD5 = 110
+    IRON4 = 100
+    IRON5 = 90
+    IRON6 = 80
+    IRON7 = 70
+    IRON8 = 60
+    IRON9 = 50
+    PITCH = 40
+    # SAND always calculate by PITCH's 70%
 
 class Club:
     grade: str
     distance: int
+
+    def __init__(self, grade_and_distance: Tuple[str, int]) -> None:
+        grade, distance = grade_and_distance
+        self.grade = grade
+        self.distance = distance
 
     def shot(self, golfer_level: int, field: Field):
         pass
