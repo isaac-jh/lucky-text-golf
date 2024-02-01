@@ -29,8 +29,11 @@ def choose_course(current_user: Golfer):
 
         if answer == 'y' or answer == 'yes':
             print("\n\nOK!!! Enjoy your rounding :)")
-
-            if course_name == 'normal':
-                return normal.go_round(current_user)
-            
             break
+
+    if course_name == 'normal':
+        return run_course(current_user, normal.COURSE_DATA)
+    
+
+def run_course(current_user: Golfer, course: dict):
+    pass
