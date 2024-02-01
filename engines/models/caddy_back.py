@@ -74,17 +74,27 @@ class CaddyBack:
             "Sand": self.sand.grade
         }
 
-    def get_distances(self):
-        return {
-            "Driver": self.driver.distance,
-            "Wood3": self.wood3.distance,
-            "Wood5": self.wood5.distance,
-            "Iron4": self.iron4.distance,
-            "Iron5": self.iron5.distance,
-            "Iron6": self.iron6.distance,
-            "Iron7": self.iron7.distance,
-            "Iron8": self.iron8.distance,
-            "Iron9": self.iron9.distance,
-            "Pitch": self.pitch.distance,
-            "Sand": self.sand.distance
-        }
+    def pick(self, goal_distance: int):
+        if goal_distance >= self.driver.distance:
+            return ('Driver', self.driver)
+        if goal_distance >= self.wood3.distance:
+            return ('Wood3', self.wood3)
+        if goal_distance >= self.wood5.distance:
+            return ('Wood5', self.wood5)
+        if goal_distance >= self.iron4.distance:
+            return ('Iron4', self.iron4)
+        if goal_distance >= self.iron5.distance:
+            return ('Iron5', self.iron5)
+        if goal_distance >= self.iron6.distance:
+            return ('Iron6', self.iron6)
+        if goal_distance >= self.iron7.distance:
+            return ('Iron7', self.iron7)
+        if goal_distance >= self.iron8.distance:
+            return ('Iron8', self.iron8)
+        if goal_distance >= self.iron9.distance:
+            return ('Iron9', self.iron9)
+        if goal_distance >= self.pitch.distance:
+            return ('Pitch', self.pitch)
+        if goal_distance >= self.sand.distance:
+            return ('Sand', self.sand)
+        return ('Putter', self.putter)
