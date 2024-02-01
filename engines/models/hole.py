@@ -3,6 +3,7 @@ from random import choice
 
 class Hole:
     num: int
+    par: int
     total_distance: int
     miss_shot_rule: Field.PENALTYAREA | Field.OB
     field_ratio: list
@@ -11,6 +12,7 @@ class Hole:
     def __init__(
             self,
             num: int,
+            par: int,
             total_distance: int,
             miss_shot_rule: Field.PENALTYAREA | Field.OB = Field.PENALTYAREA,
             fairway_ratio: int = 60,
@@ -19,6 +21,7 @@ class Hole:
             green_distance: int = 25
         ) -> None:
         self.num = num
+        self.par = par
         self.total_distance = total_distance
         self.miss_shot_rule = miss_shot_rule
         self.green_distance = green_distance
