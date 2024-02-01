@@ -1,15 +1,17 @@
 import json
-from .club_model import Club, Driver, Wood, Iron, Wedge, Putter
+from .club import Club, Driver, Wood, Iron, Wedge, Putter
+from .caddy_back import CaddyBack
 
 class Golfer:
     name: str
     exp: int
-    cleared_courses: int
+    cleared_courses: list
+    caddy_back: CaddyBack
 
     def __init__(self, name: str) -> None:
         self.name = name
         self.exp = 0
-        self.cleared_courses = 0
+        self.cleared_courses = []
 
     @staticmethod
     def fetch(json_file: object):
@@ -18,9 +20,13 @@ class Golfer:
         golfer.cleared_courses = json_file["cleared_courses"]
         return golfer
     
+    def count_cleared(self):
+        return len(self.cleared_courses)
+    
     def save(self):
         with open(f'./golfers/{self.name}.json', 'w') as outfile:
-            json.dump(self, outfile, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+            data = { "name": self.name, "exp": self.exp, "cleared_courses": self.cleared_courses }
+            json.dump(data, outfile, sort_keys=True, indent=4)
 
     def get_level(self):
         if self.exp < 100:
@@ -39,22 +45,20 @@ class Golfer:
     def todays_distance_condition(self, club: Club):
         pass
 
-    def tee_shot(self, club: Driver | Wood | Iron):
+    def tee_swing(self, club: Driver | Wood | Iron | Wedge):
         pass
 
-    def fairway_shot(self, club: Club):
+    def fairway_swing(self, club: Driver | Wood | Iron | Wedge):
         pass
 
-    def rough_shot(self, club: Iron | Wedge):
-        # wood 계열 고를 경우 비거리 감소
+    def rough_swing(self, club: Driver | Wood | Iron | Wedge):
         pass
 
-    def bunker_shot(self, club: Iron | Wedge):
-        # green bunker 일 경우에는 approach로 고려
+    def bunker_swing(self, club: Iron | Wedge):
         pass
 
-    def approach(self, wedge: Wedge):
+    def approach(self, club: Wedge):
         pass
 
-    def putting(self, putter: Putter):
+    def putting(self, club: Putter):
         pass

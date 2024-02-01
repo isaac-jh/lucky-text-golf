@@ -2,7 +2,7 @@ import os
 import regex
 import json
 
-from engines.golfer_model import Golfer
+from engines.models.golfer import Golfer
 
 
 def login_or_create():
