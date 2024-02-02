@@ -46,7 +46,7 @@ def choose_course(current_user: Golfer):
     current_user.set_todays_distance_condition()
 
     for club, grade in current_user.caddy_back.get_grades().items():
-        print(f'Rolling <{club}>', end='')
+        print(f'Rolling <{club}>')
         if grade == 'SSS':
             dot_sleeper(8)
         elif grade == 'SS':
@@ -89,13 +89,13 @@ def run_course(current_user: Golfer, course: List[Hole], course_name: str):
                 club, c = current_user.caddy_back.pick(remain, field)
 
             if field != Field.TEE and (club == 'Pitch' or club == 'Sand'):
-                print(f'\n\n[{swing_counter + 1}] Approach with {club}', end='')
+                print(f'\n\n[{swing_counter + 1}] Approach with {club}')
                 distance = current_user.approach(c, field, remain)
             elif club == 'Putter':
-                print(f'\n\n[{swing_counter + 1}] Putting', end='')
+                print(f'\n\n[{swing_counter + 1}] Putting')
                 distance = current_user.putting(c, remain)
             else:
-                print(f'\n\n[{swing_counter + 1}] Swing with {club}', end='')
+                print(f'\n\n[{swing_counter + 1}] Swing with {club}')
                 distance = current_user.swing(c, field)
 
             if distance == 0:

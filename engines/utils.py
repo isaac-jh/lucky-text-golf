@@ -9,7 +9,7 @@ def dot_sleeper(sec: int):
         return
     for _ in range(sec):
         time.sleep(1)
-        print('.', end='')
+        print('.')
 
 def show_banner(score: str = None, entry: bool = False):
     base = './banners'
