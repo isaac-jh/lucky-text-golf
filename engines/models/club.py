@@ -84,8 +84,12 @@ class Wedge(Club):
         min_distance = self.distance - int(((50 - golfer_level) // 2) * 3 / 10)
         return random.randrange(min_distance, self.distance + 1)
     
-    def approach(self, golfer_level: int, goal_distance: int):
+    def approach(self, golfer_level: int, field: Field, goal_distance: int):
         penalty = int(goal_distance * (5 - golfer_level // 10) / 10)
+        if field == Field.ROUGH:
+            penalty += penalty * 0.1
+        if field == Field.BUNKER:
+            penalty += penalty * 0.2
         min_distance = self.distance - penalty
         max_distance = self.distance + penalty
 

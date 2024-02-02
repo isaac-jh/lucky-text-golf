@@ -14,9 +14,13 @@ class Score(Enum):
 
 class Result:
     score: Score
+    score_num: int
     exp: int
 
     def __init__(self, swing_count: int, par: int) -> None:
+        sc = swing_count - par
+        self.score_num = sc
+
         if swing_count == 1:
             self.score = Score.HOLE_IN_ONE
             self.exp = 10
@@ -25,7 +29,6 @@ class Result:
             self.score = Score.DOUBLE_PAR
             self.exp = 0
 
-        sc = swing_count - par
         if sc == -3:
             self.score = Score.ALBATROSS
             self.exp = 12
