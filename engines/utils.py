@@ -12,7 +12,7 @@ def dot_sleeper(sec: int):
         print('.', end='')
 
 def show_banner(score: str = None, entry: bool = False):
-    base = '../banners'
+    base = './banners'
     if entry:
         with open(f'{base}/banner.txt') as banner:
             print(banner.read())
