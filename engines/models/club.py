@@ -1,11 +1,11 @@
 import random
 
 from .field import Field
-from enum import Enum
+from enum import IntEnum
 from typing import Tuple
 
 
-class DefaultClubDistance(Enum):
+class DefaultClubDistance(IntEnum):
     DRIVER = 180
     WOOD3 = 160
     WOOD5 = 140
@@ -34,6 +34,9 @@ class Club:
         value = random.random()
         if club == "D" or club == "W":
             if golfer_level // 10 < 1:
+                if value < 0.4:
+                    return True
+            elif golfer_level // 10 < 2:
                 if value < 0.3:
                     return True
             elif golfer_level // 10 < 3:
@@ -41,6 +44,9 @@ class Club:
                     return True
         if club == "I":
             if golfer_level // 10 < 1:
+                if value < 0.3:
+                    return True
+            elif golfer_level // 10 < 2:
                 if value < 0.2:
                     return True
             elif golfer_level // 10 < 3:
@@ -61,6 +67,7 @@ class Wood(Club):
         if self._calculate_miss_shot(golfer_level, 'W'):
             return 0
         min_distance = self.distance - int(((50 - golfer_level) // 2) * 7 / 10)
+        penalty = 1
         if field == Field.ROUGH:
             penalty = 0.9
         return int(random.randrange(min_distance, self.distance + 1) * penalty)
@@ -71,6 +78,7 @@ class Iron(Club):
         if self._calculate_miss_shot(golfer_level, 'I'):
             return 0
         min_distance = self.distance - int(((50 - golfer_level) // 2) * 5 / 10)
+        penalty = 1
         if field == Field.ROUGH:
             penalty = 0.9
         if field == Field.BUNKER:
@@ -86,12 +94,13 @@ class Wedge(Club):
     
     def approach(self, golfer_level: int, field: Field, goal_distance: int):
         penalty = int(goal_distance * (5 - golfer_level // 10) / 10)
+        penalty = 1
         if field == Field.ROUGH:
-            penalty += penalty * 0.1
+            penalty += int(penalty * 0.1)
         if field == Field.BUNKER:
-            penalty += penalty * 0.2
-        min_distance = self.distance - penalty
-        max_distance = self.distance + penalty
+            penalty += int(penalty * 0.2)
+        min_distance = goal_distance - penalty
+        max_distance = goal_distance + penalty
 
         return random.randrange(min_distance, max_distance + 1)
 
@@ -99,7 +108,10 @@ class Wedge(Club):
 class Putter(Club):
     def putting(self, golfer_level: int, goal_distance: int):
         penalty = int(goal_distance * (5 - golfer_level // 10) / 10)
-        min_distance = self.distance - penalty
-        max_distance = self.distance + penalty
+        min_distance = goal_distance - penalty
+        max_distance = goal_distance + penalty
+
+        if min_distance == 0:
+            min_distance = 1
 
         return random.randrange(min_distance, max_distance + 1)

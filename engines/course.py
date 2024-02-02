@@ -23,6 +23,7 @@ def choose_course(current_user: Golfer):
 
     while True:
         course_index = int(input(f'\n\nWhich course do you want?\n{course_names}\nPlease type number of course : ')) - 1
+
         if course_index == len(courses):
             break
 
@@ -38,11 +39,14 @@ def choose_course(current_user: Golfer):
             print("\n\nOK!!! Enjoy your rounding :)")
             break
 
+    if course_index == len(courses):
+        return
+
     print("\n\nRolling your distance condition!!\n\n")
     current_user.set_todays_distance_condition()
 
     for club, grade in current_user.caddy_back.get_grades().items():
-        print(f'Rolling <{club}>')
+        print(f'Rolling <{club}>', end='')
         if grade == 'SSS':
             dot_sleeper(8)
         elif grade == 'SS':
@@ -62,34 +66,36 @@ def choose_course(current_user: Golfer):
         print(f'<{grade}>\n')
 
     if course_name == 'normal':
-        print(f"/n/nWe are going to {course_name} course")
+        print(f'\n\nWe are going to {course_name} course')
         dot_sleeper(10)
         return run_course(current_user, normal.COURSE_DATA, course_name)
     
 
 def run_course(current_user: Golfer, course: List[Hole], course_name: str):
-    round_start = datetime.now()
+    round_start = str(datetime.now())
     results = []
     hole_counter = 1
     for hole in course:
         remain = hole.total_distance
-        print(f'----------<<< Hole {hole_counter} >>>----------')
+        print(f'\n\n----------<<< Hole {hole_counter} Par {hole.par} >>>----------')
         field = Field.TEE
         swing_counter = 0
-        while True:
+        while remain != 0:
+            print(f'\n<<<<<<< Distance to hole : {remain} >>>>>>')
             if field == Field.GREEN:
                 club = 'Putter'
                 c = current_user.caddy_back.putter
             else:
-                club, c = current_user.caddy_back.pick(remain)
+                club, c = current_user.caddy_back.pick(remain, field)
+
             if field != Field.TEE and (club == 'Pitch' or club == 'Sand'):
-                print(f'\n\nApproach with {club}')
-                distance = current_user.approach(c, remain)
+                print(f'\n\n[{swing_counter + 1}] Approach with {club}', end='')
+                distance = current_user.approach(c, field, remain)
             elif club == 'Putter':
-                print(f'\n\nPutting')
+                print(f'\n\n[{swing_counter + 1}] Putting', end='')
                 distance = current_user.putting(c, remain)
             else:
-                print(f'\n\nSwing with {club}')
+                print(f'\n\n[{swing_counter + 1}] Swing with {club}', end='')
                 distance = current_user.swing(c, field)
 
             if distance == 0:
@@ -97,23 +103,22 @@ def run_course(current_user: Golfer, course: List[Hole], course_name: str):
                 if hole.miss_shot_rule == Field.PENALTYAREA:
                     print("\nBall goes to Penalty Area")
                     print("\nPenalty Score + 1")
+                    print("\nContinue at the Penalty Tee")
                     swing_counter += 1
-                    if club.startswith('Iron'):
-                        remain -= 60
-                    else:
-                        remain -= 120
+                    remain -= int(remain * 3 / 10)
                 else:
                     print("\nBall goes to O.B")
                     print("\nPenalty Score + 1")
                     swing_counter += 1
+                continue
 
 
             if club == 'Putter':
-                dot_sleeper(distance)
+                dot_sleeper(5)
             else:
                 dot_sleeper(distance // 10)
             
-            print(f'{distance}M')
+            print(f'> {distance}M <')
             remain = remain - distance
             if remain < 0:
                 remain = remain * -1
@@ -121,23 +126,23 @@ def run_course(current_user: Golfer, course: List[Hole], course_name: str):
 
             if remain == hole.green_distance + 1:
                 field = Field.FRINGE
-            elif remain <= hole.green_distance:
-                field = Field.GREEN
             elif remain == 1:
-                print("\n\nConcede!!! :D")
+                print("\n\n/////////////// Concede!!! :D ///////////////")
                 swing_counter += 1
                 break
             elif remain == 0:
-                print("\n\nHole In!!! XD")
+                print("\n\n/////////////// Hole In!!! XD ////////////////")
                 break
+            elif remain <= hole.green_distance:
+                field = Field.GREEN
             else:
                 field = hole.where_is_my_ball()
             print(f'\nBall is on the {field}')
             
             swing_counter += 1
 
-            if swing_counter == hole.par - 1:
-                print("\n\nDouble Par...X(")
+            if swing_counter >= (hole.par * 2) - 1:
+                swing_counter = hole.par * 2
                 break
 
             print("\n\nMoving to ball")
@@ -158,7 +163,7 @@ def run_course(current_user: Golfer, course: List[Hole], course_name: str):
         total_exp += result.exp
         total_swing_score += result.score_num
     
-    results_for_save = { 'course': course_name, 'started_at': round_start, 'ended_at': datetime.now, 'holes': results }
+    results_for_save = { 'course': course_name, 'started_at': round_start, 'ended_at': str(datetime.now()), 'holes': [result.__dict__ for result in results] }
     
     print("\n\nRounding ended!!\n\nYour Scores :")
     print("\n\nTotal Swing Score is")

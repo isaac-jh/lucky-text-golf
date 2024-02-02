@@ -1,6 +1,7 @@
 import random
 
 from .club import DefaultClubDistance, Driver, Wood, Iron, Wedge, Putter
+from .field import Field
 
 
 class CaddyBack:
@@ -33,7 +34,7 @@ class CaddyBack:
 
     @staticmethod
     def _get_grade_and_distance(golfer_level: int, default_distance: DefaultClubDistance | int):
-        distance_standard = (golfer_level * 2) + default_distance
+        distance_standard = (golfer_level * 2) + int(default_distance)
         max_distance = distance_standard + 30
         min_distance = distance_standard + golfer_level - 50
         today_distance = random.randrange(min_distance, max_distance + 1)
@@ -74,12 +75,12 @@ class CaddyBack:
             "Sand": self.sand.grade
         }
 
-    def pick(self, goal_distance: int):
-        if goal_distance >= self.driver.distance:
+    def pick(self, goal_distance: int, field: Field):
+        if field == Field.TEE and goal_distance >= self.driver.distance:
             return ('Driver', self.driver)
-        if goal_distance >= self.wood3.distance:
+        if field != Field.BUNKER and goal_distance >= self.wood3.distance:
             return ('Wood3', self.wood3)
-        if goal_distance >= self.wood5.distance:
+        if field != Field.BUNKER and goal_distance >= self.wood5.distance:
             return ('Wood5', self.wood5)
         if goal_distance >= self.iron4.distance:
             return ('Iron4', self.iron4)
@@ -95,6 +96,4 @@ class CaddyBack:
             return ('Iron9', self.iron9)
         if goal_distance >= self.pitch.distance:
             return ('Pitch', self.pitch)
-        if goal_distance >= self.sand.distance:
-            return ('Sand', self.sand)
-        return ('Putter', self.putter)
+        return ('Sand', self.sand)

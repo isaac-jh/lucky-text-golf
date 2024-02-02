@@ -22,38 +22,38 @@ class Result:
         self.score_num = sc
 
         if swing_count == 1:
-            self.score = Score.HOLE_IN_ONE
+            self.score = Score.HOLE_IN_ONE.value
             self.exp = 10
         
         if swing_count >= par * 2:
-            self.score = Score.DOUBLE_PAR
+            self.score = Score.DOUBLE_PAR.value
             self.exp = 0
 
         if sc == -3:
-            self.score = Score.ALBATROSS
+            self.score = Score.ALBATROSS.value
             self.exp = 12
         elif sc == -2:
-            self.score = Score.EAGLE
+            self.score = Score.EAGLE.value
             self.exp = 7
         elif sc == -1:
-            self.score = Score.BIRDIE
+            self.score = Score.BIRDIE.value
             self.exp = 5
         elif sc == 0:
-            self.score = Score.PAR
+            self.score = Score.PAR.value
             self.exp = 3
         elif sc == 1:
-            self.score = Score.BOGEY
+            self.score = Score.BOGEY.value
             self.exp = 2
         elif sc == 2:
-            self.score = Score.DOUBLE_BOGEY
+            self.score = Score.DOUBLE_BOGEY.value
             self.exp = 2
         elif sc == 3:
-            self.score = Score.TRIPLE_BOGEY
+            self.score = Score.TRIPLE_BOGEY.value
             self.exp = 1
         elif sc == 4:
-            self.score = Score.QUADRUPLE_BOGEY
+            self.score = Score.QUADRUPLE_BOGEY.value
             self.exp = 1
         else:
-            self.score = Score.DOUBLE_PAR
+            self.score = Score.DOUBLE_PAR.value
             self.exp = 0
 

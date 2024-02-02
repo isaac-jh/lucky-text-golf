@@ -9,7 +9,7 @@ input("\n\n----------< Press Enter To Start >----------")
 current_user = login_or_create()
 
 while True:
-    choice = input('\n\nWhat you going to do?\n\n1. Rounding\n2. See My Profile\n3.Go to Home\n\nPlease type number : ')
+    choice = input('\n\nWhat you going to do?\n\n1. Rounding\n2. See My Profile\n3. Go to Home\n\nPlease type number : ')
     if choice == '1':
         choose_course(current_user)
     elif choice == '2':

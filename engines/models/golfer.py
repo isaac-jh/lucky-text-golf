@@ -56,8 +56,8 @@ class Golfer:
     def swing(self, club: Driver | Wood | Iron | Wedge, field: Field):
         return club.shot(self.get_level(), field)
 
-    def approach(self, club: Wedge, goal_distance: int):
-        return club.approach(self.get_level(), goal_distance)
+    def approach(self, club: Wedge, field: Field, goal_distance: int):
+        return club.approach(self.get_level(), field, goal_distance)
 
     def putting(self, club: Putter, goal_distance: int):
         return club.putting(self.get_level(), goal_distance)

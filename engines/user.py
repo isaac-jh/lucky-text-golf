@@ -32,7 +32,7 @@ def login_or_create():
                 print("\n\nUmm... You probably type wrong number..!")
                 continue
             name, _ = golfers[golfer_index].name.split('.')
-            answer = input(f'\n\nYour name is "{name}", right?\t ("y" or "yes" for yes, "n" or "no" for no) : ').lower()
+            answer = input(f'\n\nYour name is "{name}", right?\t ("y" or "yes" for yes, "n" or "no" for no) : ').replace(' ', '').lower()
 
             if answer == 'y' or answer == 'yes':
                 print('\n\nCool!! Thanks :) I will check your last datas...')
