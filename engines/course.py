@@ -111,6 +111,7 @@ def run_course(current_user: Golfer, course: List[Hole], course_name: str):
                     remain -= int(remain * 3 / 10)
                     if remain <= hole.green_distance + 1:
                         remain = hole.green_distance + 5
+                    field = Field.FAIRWAY
                 else:
                     print("\nBall goes to O.B")
                     print("\nScore Penalty  +1")

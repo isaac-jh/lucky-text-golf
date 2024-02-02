@@ -24,10 +24,12 @@ class Result:
         if swing_count == 1:
             self.score = Score.HOLE_IN_ONE.value
             self.exp = 10
+            return
         
-        if swing_count >= par * 2:
+        if swing_count >= (par * 2):
             self.score = Score.DOUBLE_PAR.value
             self.exp = 0
+            return
 
         if sc == -3:
             self.score = Score.ALBATROSS.value
