@@ -1,8 +1,8 @@
 from engines.user import login_or_create
 from engines.course import choose_course
+from engines.utils import show_banner
 
-with open("./banner.txt") as banner:
-    print(banner.read())
+show_banner(entry=True)
 
 input("\n\n----------< Press Enter To Start >----------")
 

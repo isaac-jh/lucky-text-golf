@@ -7,7 +7,7 @@ from engines.models.golfer import Golfer
 from engines.models.hole import Hole
 from engines.models.field import Field
 from engines.models.result import Result
-from engines.utils import dot_sleeper
+from engines.utils import dot_sleeper, show_banner
 from typing import List
 
 def choose_course(current_user: Golfer):
@@ -104,12 +104,12 @@ def run_course(current_user: Golfer, course: List[Hole], course_name: str):
                     print("\nBall goes to Penalty Area")
                     print("\nPenalty Score + 1")
                     print("\nContinue at the Penalty Tee")
-                    swing_counter += 1
+                    swing_counter += 2
                     remain -= int(remain * 3 / 10)
                 else:
                     print("\nBall goes to O.B")
                     print("\nPenalty Score + 1")
-                    swing_counter += 1
+                    swing_counter += 2
                 continue
 
 
@@ -153,7 +153,7 @@ def run_course(current_user: Golfer, course: List[Hole], course_name: str):
 
         result = Result(swing_counter, hole.par)
         results.append(result)
-        print(f'\n{result.score}..!')
+        show_banner(result.score)
         hole_counter += 1
 
     # result 종합이랑 gained exp 표시하고 유저 세이브
