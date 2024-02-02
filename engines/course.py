@@ -132,20 +132,21 @@ def run_course(current_user: Golfer, course: List[Hole], course_name: str):
 
             if remain == hole.green_distance + 1:
                 field = Field.FRINGE
+                print(f'\nBall is on the FRINGE')
             elif remain == 1:
                 print("\n\n/////////////// Concede!!! :D ///////////////")
                 time.sleep(3)
                 swing_counter += 1
-                break
+                remain = 0
             elif remain == 0:
                 print("\n\n/////////////// Hole In!!! XD ////////////////")
                 time.sleep(3)
-                break
             elif remain <= hole.green_distance:
                 field = Field.GREEN
+                print(f'\nBall is on the GREEN')
             else:
                 field = hole.where_is_my_ball()
-            print(f'\nBall is on the {field}')
+                print(f'\nBall is on the {field.name}')
             time.sleep(3)
             
             swing_counter += 1
@@ -153,11 +154,12 @@ def run_course(current_user: Golfer, course: List[Hole], course_name: str):
             if swing_counter >= (hole.par * 2) - 1:
                 swing_counter = hole.par * 2
                 break
+            
+            if remain != 0:
+                print(f'\n<<<<<<< Remaining distance to hole : {remain} >>>>>>')
 
-            print(f'\n<<<<<<< Remaining distance to hole : {remain} >>>>>>')
-
-            print("\n\nMoving to ball")
-            dot_sleeper(5)
+                print("\n\nMoving to ball")
+                dot_sleeper(5)
 
         result = Result(swing_counter, hole.par)
         results.append(result)
@@ -180,9 +182,11 @@ def run_course(current_user: Golfer, course: List[Hole], course_name: str):
     print("\n\nTotal Swing Score is")
     dot_sleeper(5)
     print(f' {total_swing_score}!!')
-    print("\n\nTotal exp gained")
+    print("\n\nTotal exp gained is")
     dot_sleeper(5)
     print(f' {total_exp}exp!!')
+    before_level = current_user.get_level()
+
     print("\n\n-----<<< All Holes Score >>>-----\n")
     hc = 1
     
@@ -194,6 +198,10 @@ def run_course(current_user: Golfer, course: List[Hole], course_name: str):
     current_user.exp += total_exp
     current_user.cleared_courses.append(results_for_save)
     current_user.save()
+    time.sleep(5)
+
+    if before_level != current_user.get_level():
+        print("\nLevel up!!! Before :", before_level, " After :", current_user.get_level())
 
     print("\nThanks for playing!")
     print("\nReturn to Club House")
