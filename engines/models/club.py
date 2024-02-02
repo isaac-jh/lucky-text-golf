@@ -94,11 +94,10 @@ class Wedge(Club):
     
     def approach(self, golfer_level: int, field: Field, goal_distance: int):
         penalty = int(goal_distance * (5 - golfer_level // 10) / 10)
-        penalty = 1
         if field == Field.ROUGH:
-            penalty += int(penalty * 0.1)
+            penalty += int(goal_distance * 0.1)
         if field == Field.BUNKER:
-            penalty += int(penalty * 0.2)
+            penalty += int(goal_distance * 0.2)
         min_distance = goal_distance - penalty
         max_distance = goal_distance + penalty
 
