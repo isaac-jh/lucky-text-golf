@@ -152,7 +152,7 @@ def run_course(current_user: Golfer, course: List[Hole], course_name: str):
             
             swing_counter += 1
 
-            if swing_counter >= (hole.par * 2) - 1:
+            if swing_counter >= (hole.par * 2):
                 swing_counter = hole.par * 2
                 break
             
