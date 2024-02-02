@@ -5,7 +5,7 @@ class Hole:
     num: int
     par: int
     total_distance: int
-    miss_shot_rule: Field.PENALTYAREA | Field.OB
+    miss_shot_rule: Field
     field_ratio: list
     green_distance: int
 
@@ -14,7 +14,7 @@ class Hole:
             num: int,
             par: int,
             total_distance: int,
-            miss_shot_rule: Field.PENALTYAREA | Field.OB = Field.PENALTYAREA,
+            miss_shot_rule: Field = Field.PENALTYAREA,
             fairway_ratio: int = 60,
             rough_ratio: int = 30,
             bunker_ratio: int = 10,

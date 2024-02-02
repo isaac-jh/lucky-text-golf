@@ -92,6 +92,22 @@ def run_course(current_user: Golfer, course: List[Hole], course_name: str):
                 print(f'\n\nSwing with {club}')
                 distance = current_user.swing(c, field)
 
+            if distance == 0:
+                print("\n\nOhhh..... Ball is flys away....")
+                if hole.miss_shot_rule == Field.PENALTYAREA:
+                    print("\nBall goes to Penalty Area")
+                    print("\nPenalty Score + 1")
+                    swing_counter += 1
+                    if club.startswith('Iron'):
+                        remain -= 60
+                    else:
+                        remain -= 120
+                else:
+                    print("\nBall goes to O.B")
+                    print("\nPenalty Score + 1")
+                    swing_counter += 1
+
+
             if club == 'Putter':
                 dot_sleeper(distance)
             else:
