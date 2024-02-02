@@ -116,6 +116,7 @@ def run_course(current_user: Golfer, course: List[Hole], course_name: str):
                     print("\nScore Penalty  +1")
                     swing_counter += 2
                 time.sleep(5)
+                print(f'\n<<<<<<< Remaining distance to hole : {remain} >>>>>>')
                 continue
 
             if club == 'Putter':
@@ -156,10 +157,7 @@ def run_course(current_user: Golfer, course: List[Hole], course_name: str):
             print(f'\n<<<<<<< Remaining distance to hole : {remain} >>>>>>')
 
             print("\n\nMoving to ball")
-            if field == Field.GREEN:
-                dot_sleeper(distance)
-            else:
-                dot_sleeper(distance // 10)
+            dot_sleeper(5)
 
         result = Result(swing_counter, hole.par)
         results.append(result)
