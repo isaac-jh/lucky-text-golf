@@ -1,0 +1,2 @@
+-i https://pypi.org/simple
+regex==2023.12.25; python_version >= '3.7'
