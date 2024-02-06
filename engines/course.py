@@ -7,41 +7,11 @@ from engines.models.golfer import Golfer
 from engines.models.hole import Hole
 from engines.models.field import Field
 from engines.models.result import Result
+from engines.models.course import Course
 from engines.utils import dot_sleeper, show_banner
 from typing import List
 
 def choose_course(current_user: Golfer):
-    courses = list(os.scandir("./courses"))
-    course_names = ''
-    cnt = 1
-
-    for course in courses:
-        course_names += f'{cnt}. {course.name}\n'
-        cnt += 1
-
-    course_names += f'{cnt}. back\n'
-
-    while True:
-        course_index = int(input(f'\n\nWhich course do you want?\n{course_names}\nPlease type number of course : ')) - 1
-
-        if course_index == len(courses):
-            break
-
-        if course_index < 0 or course_index > len(courses):
-            print("\n\nUmm... You probably type wrong number..!")
-            continue
-
-        course_name = courses[course_index].name
-
-        answer = input(f'\n\nYour choice is "{course_name}", right?\t ("y" or "yes" for yes, "n" or "no" for no) : ').lower()
-
-        if answer == 'y' or answer == 'yes':
-            print("\n\nOK!!! Enjoy your rounding :)")
-            break
-
-    if course_index == len(courses):
-        return
-
     print("\n\nRolling your distance condition!!\n\n")
     current_user.set_todays_distance_condition()
 
@@ -65,13 +35,57 @@ def choose_course(current_user: Golfer):
             dot_sleeper(1)
         print(f'<{grade}>\n')
 
-    if course_name == 'normal':
-        print(f'\n\nWe are going to {course_name} course')
-        dot_sleeper(10)
-        return run_course(current_user, normal.COURSE_DATA, course_name)
+    course = Course()
+    easy = 0
+    normal = 0
+    hard = 0
+    print("\n\nGenerating Course")
+    for hole in course.data:
+        print(f'\nGenerating Hole <{hole.num}>')
+        dot_sleeper(3)
+        print(f'par : {hole.par}  distance : {hole.total_distance}')
+        if hole.par == 3:
+            if hole.total_distance < 120:
+                easy += 1
+                print("-----EASY-----")
+            elif hole.total_distance > 160:
+                hard += 1
+                print("-----HARD-----")
+            else:
+                normal += 1
+                print("-----NORMAL-----")
+        elif hole.par == 4:
+            if hole.total_distance < 270:
+                easy += 1
+                print("-----EASY-----")
+            elif hole.total_distance > 320:
+                hard += 1
+                print("-----HARD-----")
+            else:
+                normal += 1
+                print("-----NORMAL-----")
+        else:
+            if hole.total_distance < 450:
+                easy += 1
+                print("-----EASY-----")
+            elif hole.total_distance > 550:
+                hard += 1
+                print("-----HARD-----")
+            else:
+                normal += 1
+                print("-----NORMAL-----")
+
+    diff = sorted([('easy', easy), ('normal', normal), ('hard', hard)], key=lambda x: x[1])[2][0]
+
+    print(f'\n\nAverage course difficulty : {diff}\n easy -> 1 * exp | normal -> 1.5 * exp | hard -> 2 * exp')
+    time.sleep(2)
+
+    print(f'\n\nWe are going to course')
+    dot_sleeper(10)
+    return run_course(current_user, course.data, diff)
     
 
-def run_course(current_user: Golfer, course: List[Hole], course_name: str):
+def run_course(current_user: Golfer, course: List[Hole], diff: str):
     round_start = str(datetime.now())
     results = []
     hole_counter = 1
@@ -176,8 +190,13 @@ def run_course(current_user: Golfer, course: List[Hole], course_name: str):
     for result in results:
         total_exp += result.exp
         total_swing_score += result.score_num
+
+    if diff == 'normal':
+        total_exp = total_exp * 1.5
+    elif diff == 'hard':
+        total_exp = total_exp * 2
     
-    results_for_save = { 'course': course_name, 'started_at': round_start, 'ended_at': str(datetime.now()), 'holes': [result.__dict__ for result in results] }
+    results_for_save = { 'course': diff, 'started_at': round_start, 'ended_at': str(datetime.now()), 'holes': [result.__dict__ for result in results] }
     
     print("\n\nRounding ended!!\n\nYour Scores :")
     print("\n\nTotal Swing Score is")
@@ -186,6 +205,10 @@ def run_course(current_user: Golfer, course: List[Hole], course_name: str):
     print("\n\nTotal exp gained is")
     dot_sleeper(5)
     print(f' {total_exp}exp!!')
+    if diff == 'normal':
+        print(f' <<NORMAL course bonus x1.5>>')
+    if diff == 'hard':
+        print(f' <<<HARD course bonus x2>>>')
     before_level = current_user.get_level()
 
     print("\n\n-----<<< All Holes Score >>>-----\n")
