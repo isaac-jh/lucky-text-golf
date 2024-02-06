@@ -16,30 +16,33 @@ while True:
         choose_course(current_user)
     elif choice == '2':
         profile = current_user.profile()
-        print(f'name : {profile.get('name')}')
-        print(f'level : {profile.get('level')}')
-        print(f'total exp earned : {profile.get('exp')}')
-        print(f'total clear count : {profile.get('cleared_count')}')
+        print(f'name : {profile.get("name")}')
+        print(f'level : {profile.get("level")}')
+        print(f'total exp earned : {profile.get("exp")}')
+        print(f'total clear count : {profile.get("cleared_count")}')
 
         cleared_courses = profile.get('cleared_course_detail')
         score_aggregation = {}
-        total_play_time: datetime
+        total_play_time: datetime = None
 
         for courses in cleared_courses:
-            total_play_time += datetime.fromisoformat(courses.get('ended_at')) - datetime.fromisoformat(courses.get('started_at'))
+            if total_play_time:
+                total_play_time += datetime.fromisoformat(courses.get('ended_at')) - datetime.fromisoformat(courses.get('started_at'))
+            else:
+                total_play_time = datetime.fromisoformat(courses.get('ended_at')) - datetime.fromisoformat(courses.get('started_at'))
             holes = courses.get('holes')
             for detail in holes:
                 score_aggregation[detail.get('score')] = score_aggregation.get(detail.get('score'), 0) + 1
 
         print(f'total playtime : {total_play_time}\n')
         for score, count in score_aggregation.items():
-            print(f'{score} : {count}')
+            print(f"{score} : {count}")
 
         answer = input("If you want see more details, type 'y' or 'yes'. : ")
         if answer == 'y' or answer == 'yes':
             for course in cleared_courses:
-                print(f'started at : {course.get('started_at')}')
-                print(f'ended at : {course.get('ended_at')}')
+                print(f'started at : {course.get("started_at")}')
+                print(f'ended at : {course.get("ended_at")}')
                 for hole in course.get('holes'):
                     for k, v in hole.items():
                         print(f'\t{k} : {v}')
