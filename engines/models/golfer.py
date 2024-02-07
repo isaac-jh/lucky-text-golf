@@ -47,7 +47,7 @@ class Golfer:
         elif self.exp < 1500:
             return (self.exp - 1000) // 50 + 40
         else:
-            return 50
+            return (self.exp - 1500) // 100 + 50
     
     def set_todays_distance_condition(self):
         level = self.get_level()
