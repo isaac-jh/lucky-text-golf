@@ -87,11 +87,6 @@ class Iron(Club):
 
 
 class Wedge(Club):
-    # Wedge use shot method only in tee shot
-    def shot(self, golfer_level: int, field: Field):
-        min_distance = self.distance - int(((50 - golfer_level) // 2) * 3 / 10)
-        return random.randrange(min_distance, self.distance + 1)
-    
     def approach(self, golfer_level: int, field: Field, goal_distance: int):
         penalty = int(goal_distance * (5 - golfer_level // 10) / 10)
         if field == Field.ROUGH:

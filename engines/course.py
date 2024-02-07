@@ -101,7 +101,7 @@ def run_course(current_user: Golfer, course: List[Hole], diff: str):
             else:
                 club, c = current_user.caddy_back.pick(remain, field)
 
-            if field != Field.TEE and (club == 'Pitch' or club == 'Sand'):
+            if club == 'Pitch' or club == 'Sand':
                 print(f'\n\n[{swing_counter + 1}] Approach with {club}')
                 distance = current_user.approach(c, field, remain)
             elif club == 'Putter':
