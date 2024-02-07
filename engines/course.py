@@ -191,7 +191,7 @@ def run_course(current_user: Golfer, course: List[Hole], diff: str):
         total_swing_score += result.score_num
 
     if diff == 'normal':
-        total_exp = total_exp * 1.5
+        total_exp = int(total_exp * 1.5)
     elif diff == 'hard':
         total_exp = total_exp * 2
     
