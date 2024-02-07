@@ -2,7 +2,6 @@ import os
 import time
 from datetime import datetime
 
-from courses.normal import normal
 from engines.models.golfer import Golfer
 from engines.models.hole import Hole
 from engines.models.field import Field
